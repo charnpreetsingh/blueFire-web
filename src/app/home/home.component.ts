@@ -14,7 +14,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class HomeComponent implements OnInit {
 
-  title: string = 'Live Map';
+  title: string = 'Live Zone Map';
   lat: number = 36;
   lng: number = -119;
   zoom: number = 6;
@@ -84,6 +84,17 @@ export class HomeComponent implements OnInit {
     this.mapComs.tempLat = $event.coords.lat;
     this.mapComs.tempLng = $event.coords.lng;
     this.openMapDialog();
+  }
+
+  removeZone(m) {
+    console.log(m);
+    this.db.list('DangerZone').remove(m.key);
+  }
+
+  editZone(m) {
+    this.mapComs.tempPoint = m;
+    this.openMapDialog();
+    this.db.list('DangerZone').remove(m.key);
   }
 
 

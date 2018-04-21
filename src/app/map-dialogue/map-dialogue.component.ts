@@ -43,6 +43,11 @@ export class MapDialogueComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (this.mapComs.tempPoint) {
         // load tempPoint data
+        let oldPoint = this.mapComs.tempPoint;
+        this.mapForm.get('lat').patchValue(oldPoint.lat);
+        this.mapForm.get('lng').patchValue(oldPoint.lng);
+        this.mapForm.get('radius').patchValue(oldPoint.radius);
+        this.mapForm.get('zType').patchValue(oldPoint.zType);
       }
     }
   }
