@@ -31,10 +31,10 @@ export class HomeComponent implements OnInit {
         let tempMarkersRef = [];
         actions.forEach(
           action => {
-            console.log(action);
-            console.log(action.type);
-            console.log(action.key);
-            console.log(action.payload.val());
+            // console.log(action);
+            // console.log(action.type);
+            // console.log(action.key);
+            // console.log(action.payload.val());
             if (action.key !== 'init') {
               let markerObj = action.payload.val();
               markerObj.key = action.key;
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
 
   // $event is actually a MouseEvent, using any to ignore TS compiler errors
   mapClicked($event: any) {
-    console.log($event);
+    // console.log($event);
     this.mapComs.tempLat = $event.coords.lat;
     this.mapComs.tempLng = $event.coords.lng;
     this.openMapDialog();

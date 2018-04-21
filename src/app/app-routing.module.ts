@@ -12,6 +12,11 @@ const routes: Routes = [
     path: 'home',
     pathMatch: 'full',
     component: HomeComponent
+  },
+  {
+    path: 'home/',
+    pathMatch: 'full',
+    component: HomeComponent
   }
 ];
 
