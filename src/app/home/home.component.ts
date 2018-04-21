@@ -131,21 +131,21 @@ export class HomeComponent implements OnInit {
 
   mapTypeToIcon(zType) {
     if (zType === "Safe") {
-      return "green";
+      return "assets/ic_check_white_24px.svg";
     }
     else if (zType === "Danger") {
-      return "yellow";
+      return "assets/ic_warning_white_24px.svg";
     }
     else if (zType === "Medical") {
-      return "orange";
+      return "assets/ic_local_hospital_white_24px.svg";
     }
     else if (zType === "Fire") {
-      return "red";
+      return "assets/icons8-gas-48.png";
     }
     else if (zType === "Flood") {
-      return "blue";
+      return "assets/ic_pool_black_24px.svg";
     }
-    return "black";
+    return "";
   }
 
 
