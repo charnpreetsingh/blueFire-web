@@ -1,0 +1,9 @@
+<h2 class="fancy-text">{{ title }}</h2>
+<div>
+  <agm-map [latitude]="lat" [longitude]="lng">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+</div>
+<div>
+  <button mat-fab class="custom-button" (click)="openMapDialog()"><mat-icon>add</mat-icon></button>
+</div>

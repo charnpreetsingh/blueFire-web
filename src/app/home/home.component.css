@@ -1,0 +1,17 @@
+agm-map {
+  height: 500px;
+}
+
+.fancy-text {
+  text-align: center;
+  font-family: "Helvetica Neue";
+  font-weight: 300;
+}
+
+.custom-button{
+  background-color: #117BB2;
+  z-index: 1;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+}
