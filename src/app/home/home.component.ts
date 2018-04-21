@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   zoom: number = 6;
   markers: any[];
   markersRef: Observable<any[]>;
+  tempKey: any = null;
+  isEditing: boolean = false;
 
   constructor(private dialog: MatDialog, private mapComs: MapCommsService,  private db: AngularFireDatabase) { }
 
@@ -58,6 +60,10 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.invalid === undefined || result.invalid) {
+        if (this.isEditing) {
+          this.isEditing = false;
+          this.tempKey = null;
+        }
         return;
       }
       const receivedMapForm = result.value;
@@ -67,8 +73,14 @@ export class HomeComponent implements OnInit {
         radius: receivedMapForm.radius,
         zType: receivedMapForm.zType
       };
-      // push to FB new data
-      this.db.list('DangerZone').push(newPoint);
+      if (this.isEditing) {
+        this.db.list('DangerZone').set(this.tempKey, newPoint);
+        this.tempKey = null;
+      }
+      else {
+        // push to FB new data
+        this.db.list('DangerZone').push(newPoint);
+      }
       this.lat = newPoint.lat;
       this.lng = newPoint.lng;
     });
@@ -93,8 +105,47 @@ export class HomeComponent implements OnInit {
 
   editZone(m) {
     this.mapComs.tempPoint = m;
+    this.tempKey = m.key;
+    this.isEditing = true;
     this.openMapDialog();
-    this.db.list('DangerZone').remove(m.key);
+  }
+
+  mapTypeToColor(zType) {
+    if (zType === "Safe") {
+      return "green";
+    }
+    else if (zType === "Danger") {
+      return "yellow";
+    }
+    else if (zType === "Medical") {
+      return "orange";
+    }
+    else if (zType === "Fire") {
+      return "red";
+    }
+    else if (zType === "Flood") {
+      return "blue";
+    }
+    return "black";
+  }
+
+  mapTypeToIcon(zType) {
+    if (zType === "Safe") {
+      return "green";
+    }
+    else if (zType === "Danger") {
+      return "yellow";
+    }
+    else if (zType === "Medical") {
+      return "orange";
+    }
+    else if (zType === "Fire") {
+      return "red";
+    }
+    else if (zType === "Flood") {
+      return "blue";
+    }
+    return "black";
   }
 
 

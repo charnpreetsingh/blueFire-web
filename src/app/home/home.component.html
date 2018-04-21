@@ -28,7 +28,7 @@
 
       <agm-circle [latitude]="m.lat" [longitude]="m.lng"
                   [radius]="m.radius"
-                  [fillColor]="'red'"
+                  [fillColor]="this.mapTypeToColor(m.zType)"
                   [circleDraggable]="false"
                   [editable]="false">
       </agm-circle>
