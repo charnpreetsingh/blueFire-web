@@ -33,6 +33,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { MapDialogueComponent } from './map-dialogue/map-dialogue.component';
+import {MapCommsService} from './map-comms.service';
 
 
 
@@ -63,7 +64,9 @@ import { MapDialogueComponent } from './map-dialogue/map-dialogue.component';
   entryComponents: [
     MapDialogueComponent
   ],
-  providers: [],
+  providers: [
+    MapCommsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

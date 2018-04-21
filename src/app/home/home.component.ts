@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {MapDialogueComponent} from '../map-dialogue/map-dialogue.component';
+import {} from '@types/googlemaps';
+import {MapCommsService} from '../map-comms.service';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -11,12 +15,38 @@ import {MapDialogueComponent} from '../map-dialogue/map-dialogue.component';
 export class HomeComponent implements OnInit {
 
   title: string = 'Live Map';
-  lat: number = 39;
-  lng: number = -98;
+  lat: number = 36;
+  lng: number = -119;
+  zoom: number = 6;
+  markers: any[];
+  markersRef: Observable<any[]>;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private mapComs: MapCommsService,  private db: AngularFireDatabase) { }
 
   ngOnInit() {
+    // Call FB here and get data
+    this.markers = [];
+    this.db.list('DangerZone').snapshotChanges().subscribe(
+      actions => {
+        let tempMarkersRef = [];
+        actions.forEach(
+          action => {
+            console.log(action);
+            console.log(action.type);
+            console.log(action.key);
+            console.log(action.payload.val());
+            if (action.key !== 'init') {
+              let markerObj = action.payload.val();
+              markerObj.key = action.key;
+              tempMarkersRef.push(markerObj);
+            }
+          }
+        );
+        // done with current update
+        // update the markersRef here, since done
+        this.markers = [...tempMarkersRef];
+      }
+    );
   }
 
   openMapDialog() {
@@ -35,13 +65,30 @@ export class HomeComponent implements OnInit {
         lat: receivedMapForm.lat,
         lng: receivedMapForm.lng,
         radius: receivedMapForm.radius,
-        radUnit: receivedMapForm.radUnit,
         zType: receivedMapForm.zType
       };
-
+      // push to FB new data
+      this.db.list('DangerZone').push(newPoint);
       this.lat = newPoint.lat;
       this.lng = newPoint.lng;
     });
+  }
+
+  clickedMarker(label: string, index: number) {
+    console.log(`clicked the marker: ${label || index}`);
+  }
+
+  // $event is actually a MouseEvent, using any to ignore TS compiler errors
+  mapClicked($event: any) {
+    console.log($event);
+    this.mapComs.tempLat = $event.coords.lat;
+    this.mapComs.tempLng = $event.coords.lng;
+    this.openMapDialog();
+  }
+
+
+  markerDragEnd(m, $event: any) {
+    // console.log('dragEnd', m, $event);
   }
 
 }
